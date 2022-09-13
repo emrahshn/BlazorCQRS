@@ -3,4 +3,4 @@
 
 ## License
 
-DIYI is licensed under the [MIT license](LICENSE.TXT).
+DIYI is licensed under the [MIT license](LICENSE).
