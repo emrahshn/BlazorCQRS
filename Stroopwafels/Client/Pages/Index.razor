@@ -1,0 +1,114 @@
+﻿@page "/"
+<PageTitle>Index</PageTitle>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="images/waffle.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 cla ss="card-title">@(Model.OrderRows[0].DisplayName)</h5>
+                <p class="card-text">
+                    Trakteer jezelf of je bezoek op een lekker koekje bij de koffie of thee.
+                    Of je nu gek bent op chocolade, of speculaas je favoriet is, we hebben voor ieder wat wils!
+                </p>
+                <div class="form-floating">
+                    <input id="@(Model.OrderRows[0].DisplayName)" type="number" min="0" class="form-control"
+                           @bind-value="Model.OrderRows[0].Amount"
+                           @onchange="FormSubmitted"
+                           @bind-value:event="oninput"
+                           disabled="@Busy">
+                    <label for="@(Model.OrderRows[0].DisplayName)">Hoeveelheid</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="images/waffle.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 cla ss="card-title">@(Model.OrderRows[1].DisplayName)</h5>
+                <p class="card-text">
+                    Trakteer jezelf of je bezoek op een lekker koekje bij de koffie of thee.
+                    Of je nu gek bent op chocolade, of speculaas je favoriet is, we hebben voor ieder wat wils!
+                </p>
+                <div class="form-floating">
+                    <input id="@(Model.OrderRows[1].DisplayName)" type="number" min="0" class="form-control" @bind-value="Model.OrderRows[1].Amount"
+                           @onchange="FormSubmitted"
+                           @bind-value:event="oninput"
+                           disabled="@Busy">
+                    <label for="@(Model.OrderRows[1].DisplayName)">Hoeveelheid</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="images/waffle.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 cla ss="card-title">@(Model.OrderRows[2].DisplayName)</h5>
+                <p class="card-text">
+                    Trakteer jezelf of je bezoek op een lekker koekje bij de koffie of thee.
+                    Of je nu gek bent op chocolade, of speculaas je favoriet is, we hebben voor ieder wat wils!
+                </p>
+                <div class="form-floating">
+                    <input id="@(Model.OrderRows[2].DisplayName)" type="number" min="0" class="form-control" @bind-value="Model.OrderRows[2].Amount"
+                           @onchange="FormSubmitted"
+                           @bind-value:event="oninput"
+                           disabled="@Busy">
+                    <label for="@(Model.OrderRows[2].DisplayName)">Hoeveelheid</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="px-4 py-5">
+        <span class="theme-color">Betalingsoverzicht</span>
+        <span class="theme-color float-end alert-warning">@ViewModel.MatchedSupplier.SupplierName</span>
+        <div class="mb-3">
+            <hr class="new1">
+        </div>
+        @for (int i = 0; i < ViewModel.MatchedSupplier.OrderLines.Count; i++)
+        {
+            var item = ViewModel.MatchedSupplier.OrderLines[i];
+            <div class="d-flex justify-content-between">
+                <span class="font-weight-bold">@ViewModel.OrderRows[i].DisplayName (Hoeveelheid:@item.Amount)</span>
+                <span class="text-muted">@item.Price</span>
+            </div>
+        }
+        <div class="d-flex justify-content-between">
+            <small>Shipping</small>
+            <small>$@(ViewModel.MatchedSupplier.TotalPrice - ViewModel.MatchedSupplier.TotalWithoutShippingCost)</small>
+        </div>
+        <div class="d-flex justify-content-between">
+            <small>Peter's verdiensten</small>
+            <small>$@ViewModel.PetersEarnings</small>
+        </div>
+        <div class="d-flex justify-content-between mt-3">
+            <span class="font-weight-bold">Totaal</span>
+            <span class="font-weight-bold theme-color">$@(ViewModel.MatchedSupplier.TotalPrice + ViewModel.PetersEarnings)</span>
+        </div>
+    </div>
+</div>
+<div class="row g-3 endrow">
+    <div class="col-md-5">
+        <div class="form-floating">
+            <input type="text" class="form-control" id="nameInput" @bind-value="Name">
+            <label for="nameInput">Voornaam</label>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="form-floating">
+            <DateRangePicker DaysEnabledFunction ="DaysEnabledFunction" @ref="Picker" MinDate="DateTimeOffset.Now" 
+            OnRangeSelect="DepartureDateSelected"ShowDropdowns="false" AutoApply="true" SingleDatePicker="true" 
+            Drops="DropsType.Up">
+                <PickerTemplate>
+                    <input id="@context.Id" @onclick="context.Toggle" type="text" class="form-control" style="@context.Id" value="@context.FormattedRange" readonly />
+                    <label for="@context.Id">Wensdatum</label>
+                </PickerTemplate>
+            </DateRangePicker>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn-primary btn-lg float-end" @onclick="SubmitOrder">Bestellen</button>
+    </div>
+</div>

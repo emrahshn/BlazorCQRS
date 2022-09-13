@@ -1,0 +1,38 @@
+﻿@page "/orders"
+@using Stroopwafels.Shared.Enums
+
+<PageTitle>Orders</PageTitle>
+<table class="table table-striped">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Bestellen Id</th>
+            <th scope="col">Voornaam</th>
+            <th scope="col">Wensdatum</th>
+            <th scope="col">Type</th>
+            <th scope="col">Merk</th>
+            <th scope="col">Prijs</th>
+            <th scope="col">Hoeveelheid</th>
+            <th scope="col">Leverancier</th>
+            <th scope="col">Besteldatum</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Orders)
+        {
+            <tr>
+                <td style="font-size: 12px;">@order.OrderId</td>
+                <td>@order.Name</td>
+                <td>@order.WishDate.Date.ToShortDateString()</td>
+                <td>@Enum.GetName(typeof(StroopwafelType),order.Type)</td>
+                <td>@Enum.GetName(typeof(Brand),order.Brand)</td>
+                <td>@order.Price</td>
+                <td>@order.Amount</td>
+                <td>@order.Supplier</td>
+                <td>@order.CreatedOn.Date.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+}
